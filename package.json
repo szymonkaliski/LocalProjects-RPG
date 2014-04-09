@@ -1,0 +1,14 @@
+{
+	"name": "LocalProjectsRPG",
+	"version": "0.0.1",
+	"main": "app.js",
+	"author": "Szymon Kaliski <contact@treesmovethemost.com>",
+	"dependencies": {
+		"express": "latest",
+		"mongojs": "latest",
+		"grunt-contrib-jshint": "latest",
+		"grunt-concurrent": "latest",
+		"grunt-nodemon": "latest",
+		"grunt-exec": "latest"
+	}
+}
