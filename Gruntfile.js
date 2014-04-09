@@ -8,7 +8,8 @@ module.exports = function(grunt) {
 					{expand: true, cwd: 'components/requirejs/', src: ['require.js'], dest: 'public/scripts/libraries/'},
 					{expand: true, cwd: 'components/requirejs-text/', src: ['text.js'], dest: 'public/scripts/libraries/'},
 					{expand: true, cwd: 'components/backbone/', src: ['backbone.js'], dest: 'public/scripts/libraries/'},
-					{expand: true, cwd: 'components/underscore/', src: ['underscore.js'], dest: 'public/scripts/libraries/'}
+					{expand: true, cwd: 'components/underscore/', src: ['underscore.js'], dest: 'public/scripts/libraries/'},
+					{expand: true, cwd: 'components/bootstrap/less', src: ['*.less'], dest: 'public/styles/bootstrap/'}
 				]
 			}
 		},
@@ -30,6 +31,18 @@ module.exports = function(grunt) {
 					console: true,
 					module: true,
 					trailing: true
+				}
+			}
+		},
+		less: {
+			development: {
+				options: {
+					compress: true,
+					yuicompress: true,
+					optimization: 2
+				},
+				files: {
+					"public/styles/style.css": "public/styles/style.less"
 				}
 			}
 		},
@@ -67,8 +80,8 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			files: ['public/**', '*.js', '!public/index.html'],
-			tasks: ['lint', 'process']
+			files: ['public/**', '*.js', "public/styles/*.less", "!public/styles/*.css", '!public/index.html'],
+			tasks: ['lint', 'process', 'less']
 		},
 		concurrent: {
 			dev: {
@@ -82,6 +95,7 @@ module.exports = function(grunt) {
 
 	// load libs
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
@@ -104,5 +118,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('run', ['concurrent']);
 
 	// default task
-	grunt.registerTask('default', ['lint', 'process', 'run']);
+	grunt.registerTask('default', ['lint', 'less', 'process', 'run']);
 };
