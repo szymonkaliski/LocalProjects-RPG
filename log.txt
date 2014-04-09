@@ -32,3 +32,5 @@
 		[]
 
 - 15:05 - 15:35 - "hello world!" in browser console from backbone with simple router on frontend
+- 15:45 - 16:00 - bootstrap with less for CMS
+- 16:15 - 17:00 - working collection fetching and template views in backbone
