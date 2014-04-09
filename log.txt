@@ -1,0 +1,34 @@
+#09/04/2014
+
+- 11:15 - 11:30 - project structure implemented with node / mongo / grunt
+- 12:00 - 12:30 - basic crud implementation:
+
+		curl --data "test=1&asd=2" http://localhost:3000/api/token
+		{
+			"test": "1",
+			"asd": "2",
+			"_id": "53451fccede2004698000001"
+		}
+
+		curl http://localhost:3000/api/token
+		[
+			{
+				"test": "1",
+				"asd": "2",
+				"_id": "53451fccede2004698000001"
+			}
+		]
+
+		curl -X PUT --data "test=2" http://localhost:3000/api/token/53451fccede2004698000001
+		{
+			"test": "2",
+			"_id": "53451fccede2004698000001"
+		}
+
+		curl -X DELETE http://localhost:3000/api/token/53451fccede2004698000001
+		OK
+
+		curl http://localhost:3000/api/token/
+		[]
+
+- 15:05 - 15:35 - "hello world!" in browser console from backbone with simple router on frontend

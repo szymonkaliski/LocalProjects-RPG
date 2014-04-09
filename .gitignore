@@ -6,3 +6,7 @@ node_modules/
 
 # Bower
 components/
+
+# Libraries
+public/scripts/libraries/
+public/scripts/*.min.js

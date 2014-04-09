@@ -6,9 +6,16 @@
 	"dependencies": {
 		"express": "latest",
 		"mongojs": "latest",
+		"bower": "latest",
+		"grunt": "latest",
+		"grunt-contrib-copy": "latest",
+		"grunt-contrib-watch": "latest",
+		"grunt-contrib-requirejs": "latest",
 		"grunt-contrib-jshint": "latest",
 		"grunt-concurrent": "latest",
 		"grunt-nodemon": "latest",
-		"grunt-exec": "latest"
+		"grunt-exec": "latest",
+		"grunt-preprocess": "latest",
+		"grunt-env": "latest"
 	}
 }

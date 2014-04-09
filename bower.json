@@ -1,0 +1,10 @@
+{
+	"name": "LocalProjectsRPG",
+	"version": "0.0.1",
+	"dependencies": {
+		"jquery": "latest",
+		"requirejs": "latest",
+		"requirejs-text": "latest",
+		"backbone": "latest"
+	}
+}
