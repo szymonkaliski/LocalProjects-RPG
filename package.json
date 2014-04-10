@@ -4,7 +4,7 @@
 	"main": "app.js",
 	"author": "Szymon Kaliski <contact@treesmovethemost.com>",
 	"dependencies": {
-		"express": "latest",
+		"express": "~3.5.0",
 		"mongojs": "latest",
 		"bower": "latest",
 		"grunt": "latest",

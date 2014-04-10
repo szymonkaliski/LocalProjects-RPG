@@ -4,8 +4,8 @@ define([
 	"collections/games",
 	"collections/questions",
 	"collections/tokens",
-	"views/cmsToken"
-], function($, Backbone, Games, Questions, Tokens, CMSTokenView) {
+	"views/cmsTokens"
+], function($, Backbone, Games, Questions, Tokens, CMSTokensView) {
 	return Backbone.Router.extend({
 		currentView: null, // save current view
 
@@ -45,7 +45,7 @@ define([
 		},
 
 		cmsToken: function(id) {
-			this.currentView = new CMSTokenView({ "id": id, "tokens": this.tokens });
+			this.currentView = new CMSTokensView({ "id": id, "tokens": this.tokens });
 		},
 
 		renderGame: function(id) {
