@@ -1,7 +1,7 @@
-
 <div class="container">
-	<h2>Tokens</h2>
+	<h2>Questions</h2>
 
+	<!--
 	<form class="form-inline" role="form">
 		<div class="form-group">
 			<label for="token-name">Name</label>
@@ -9,8 +9,9 @@
 		</div>
 		<button type="submit" class="btn btn-default">Add</button>
 	</form>
+	-->
 
-	<ul class="token-list">
+	<ul class="question-list">
 	</ul>
 </div>
 

@@ -4,7 +4,7 @@ define([
 	"models/token",
 	"views/cmsToken",
 	"text!templates/cmsTokens.tpl"
-], function($, Backbone, Token, CMSToken, ViewTemplate) {
+], function($, Backbone, Token, CMSTokenView, ViewTemplate) {
 	return Backbone.View.extend({
 		el: "body",
 
@@ -30,12 +30,12 @@ define([
 		render: function() {
 			// render basic view
 			this.$el.html(_.template(ViewTemplate));
-			var $tagList = this.$el.find(".tag-list");
+			var $tokenList = this.$el.find(".token-list");
 
-			// render all tokens
+			// render all questions
 			this.options.tokens.forEach(function(token) {
-				var tokenView = new CMSToken({ "model": token });
-				$tagList.append(tokenView.render().el);
+				var tokenView = new CMSTokenView({ "model": token });
+				$tokenList.append(tokenView.render().el);
 			}.bind(this));
 
 			return this;

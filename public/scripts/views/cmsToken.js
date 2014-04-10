@@ -2,15 +2,16 @@ define([
 	"jquery",
 	"backbone",
 	"bootstrapModal",
+	"addons/bus",
 	"text!templates/cmsToken.tpl"
-], function($, Backbone, BootstrapModal, ViewTemplate) {
+], function($, Backbone, BootstrapModal, Bus, ViewTemplate) {
 	return Backbone.View.extend({
-		tagName: "tr",
+		tagName: "li",
 
 		events: {
-			"click .remove": "remove",
-			"click .edit": "edit",
-			"click .save": "save"
+			"click .token-remove": "remove",
+			"click .token-edit": "edit",
+			"click .token-save": "save"
 		},
 
 		dom: {
@@ -42,7 +43,20 @@ define([
 		},
 
 		remove: function() {
-			this.model.destroy();
+			// if token is displayed inside question, then on remove
+			// it should be removed from question, not from server
+			if (this.options.questionID) {
+				Bus.trigger("tokenRemoved", {
+					"tokenID": this.model.id,
+					"questionID": this.options.questionID
+				});
+			}
+			// if token is removed on cms token list it should be removed 
+			// from server
+			else {
+				console.log("DESTROY");
+				this.model.destroy();
+			}
 		},
 
 		save: function() {
@@ -51,6 +65,8 @@ define([
 			if (name.length > 0) {
 				this.model.set("name", name);
 				this.model.save();
+
+				this.modal.modal("hide");
 			}
 		}
 	});

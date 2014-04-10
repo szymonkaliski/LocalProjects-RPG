@@ -40,3 +40,5 @@
 - 10:15 - 11:00 - basic token displaying in cms view
 - 11:10 - 11:30 - can add and remove tokens from cms view
 - 11:35 - 12:05 - working token name editing in cms
+- 12:20 - 13:05 - initial questions editing
+- 15:35 - 16:05 - ability to add and remove tokens from questions in cms

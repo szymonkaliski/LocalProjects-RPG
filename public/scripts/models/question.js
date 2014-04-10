@@ -9,8 +9,9 @@ define([
 			return this.baseUrl + "/" + this.id;
 		},
 
-		// TODO: set question defaults
 		defaults: {
+			"name": null,
+			"tokens": {}
 		}
 	});
 });
