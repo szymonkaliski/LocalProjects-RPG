@@ -15,8 +15,9 @@ define([
 			"click .token-add": "addToken"
 		},
 
-		"form": null,
-		"tokenList": null,
+		form: null,
+		tokenList: null,
+
 		children: [],
 
 		initialize: function(options) {

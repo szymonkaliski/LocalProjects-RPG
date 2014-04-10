@@ -1,6 +1,5 @@
-
 <div class="container">
-	<h2>Tokens</h2>
+	<h2>All tokens</h2>
 
 	<form class="form-inline" role="form">
 		<div class="form-group">

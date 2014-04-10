@@ -43,3 +43,4 @@
 - 12:20 - 13:05 - initial questions editing
 - 15:35 - 16:05 - ability to add and remove tokens from questions in cms
 - 16:05 - 16:40 - fixes for cms (was braking on renaming tokens in questions)
+- 18:30 - 19:35 - properly working cms for game, questions and tokens, all that's left is wiring it all together

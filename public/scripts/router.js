@@ -4,9 +4,10 @@ define([
 	"collections/games",
 	"collections/questions",
 	"collections/tokens",
+	"views/cmsGames",
 	"views/cmsQuestions",
 	"views/cmsTokens"
-], function($, Backbone, Games, Questions, Tokens, CMSQuestionsView, CMSTokensView) {
+], function($, Backbone, Games, Questions, Tokens, CMSGamesView, CMSQuestionsView, CMSTokensView) {
 	return Backbone.Router.extend({
 		currentView: null, // save current view
 
@@ -20,6 +21,12 @@ define([
 			"cms/token(/:id)": "cmsToken",
 			"game/:id": "renderGame",
 			"*actions": "defaultAction"
+		},
+
+		switchToView: function(view, options) {
+			if (this.currentView) this.currentView.remove();
+
+			this.currentView = new view(options);
 		},
 
 		initialize: function() {
@@ -38,15 +45,15 @@ define([
 		},
 
 		cmsGame: function(id) {
-			console.log("Game for: " + id);
+			this.switchToView(CMSGamesView, { "id": id, "games": this.games, "questions": this.questions, "tokens": this.tokens });
 		},
 
 		cmsQuestion: function(id) {
-			this.currentView = new CMSQuestionsView({ "id": id, "tokens": this.tokens, "questions": this.questions });
+			this.switchToView(CMSQuestionsView, { "id": id, "tokens": this.tokens, "questions": this.questions });
 		},
 
 		cmsToken: function(id) {
-			this.currentView = new CMSTokensView({ "id": id, "tokens": this.tokens });
+			this.switchToView(CMSTokensView, { "id": id, "tokens": this.tokens });
 		},
 
 		renderGame: function(id) {

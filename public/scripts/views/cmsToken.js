@@ -14,7 +14,7 @@ define([
 			"click .token-save": "saveToken"
 		},
 
-		"modal": null,
+		modal: null,
 
 		initialize: function(options) {
 			_.bindAll(this, "render", "editToken", "removeToken", "saveToken");
@@ -61,13 +61,15 @@ define([
 
 			if (name.length > 0) {
 				this.model.set("name", name);
-				this.model.save();
+				this.model.save({}, {
+					"success": function() {
+						this.modal.modal("hide");
 
-				this.modal.modal("hide");
-
-				Bus.trigger("tokenRenamed", {
-					"tokenID": this.model.id,
-					"questionID": this.options.questionID
+						Bus.trigger("tokenRenamed", {
+							"tokenID": this.model.id,
+							"questionID": this.options.questionID
+						});
+					}.bind(this)
 				});
 			}
 		}

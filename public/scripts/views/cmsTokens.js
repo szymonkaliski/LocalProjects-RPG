@@ -25,6 +25,9 @@ define([
 
 			// re-render on collection sync
 			this.options.tokens.on("sync add remove", function() {
+				this.remove();
+
+				this.delegateEvents();
 				this.render();
 			}.bind(this));
 		},
@@ -51,8 +54,11 @@ define([
 			var name = this.$el.find("form #token-name").val();
 			if (name.length > 0) {
 				var token = new Token({ "name": name });
-				token.save();
-				this.options.tokens.add(token);
+				token.save({}, {
+					"success": function() {
+						this.options.tokens.add(token);
+					}.bind(this)
+				});
 			}
 		},
 

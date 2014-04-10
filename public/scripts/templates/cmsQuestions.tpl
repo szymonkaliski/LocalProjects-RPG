@@ -1,5 +1,9 @@
 <div class="container">
-	<h2>Questions</h2>
+	<% if (game) { %> 
+		<h2>Questions for game: <%= game.get("name") %></h2>
+	<% } else { %>
+		<h2>All questions</h2>
+	<% } %>
 
 	<form class="form-inline" role="form">
 		<div class="form-group">

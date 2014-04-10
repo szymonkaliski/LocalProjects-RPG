@@ -15,10 +15,9 @@ define([
 			return url;
 		},
 
-
 		defaults: {
 			"name": null,
-			"questions": {}
+			"questions": []
 		}
 	});
 });
