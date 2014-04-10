@@ -36,9 +36,12 @@ define([
 		render: function() {
 			// if id passed with options, then render view with questions for given game
 			if (this.options.id) {
+				var game = this.options.games.get(this.options.id);
+
 				this.children = [
 					new CMSQuestionsView({
-						"game": this.options.games.get(this.options.id),
+						"game": game,
+						"games": this.options.games,
 						"questions": this.options.questions,
 						"tokens": this.options.tokens
 					})

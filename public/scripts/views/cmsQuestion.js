@@ -68,7 +68,19 @@ define([
 		},
 
 		removeQuestion: function() {
-			this.model.destroy();
+			// if question is displayed inside game, then on remove
+			// it should be removed from game, not from server
+			if (this.options.gameID) {
+				Bus.trigger("questionRemoved", {
+					"questionID": this.model.id,
+					"gameID": this.options.gameID
+				});
+			}
+			// if question is removed on cms token list it should be removed
+			// from server
+			else {
+				this.model.destroy();
+			}
 		},
 
 		saveQuestion: function() {

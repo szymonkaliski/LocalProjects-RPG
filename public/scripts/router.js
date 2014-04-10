@@ -34,14 +34,14 @@ define([
 			// fetching them all at beginning shouldn't make an impact;
 			// this might change in the future
 
-			this.tokens = new Tokens();
-			this.tokens.fetch();
+			this.games = new Games();
+			this.games.fetch();
 
 			this.questions = new Questions();
 			this.questions.fetch();
 
-			this.games = new Games();
-			this.games.fetch();
+			this.tokens = new Tokens();
+			this.tokens.fetch();
 		},
 
 		cmsGame: function(id) {
