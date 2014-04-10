@@ -4,7 +4,14 @@ require.config({
 		"text": "libraries/text",
 		"jquery": "libraries/jquery",
 		"backbone": "libraries/backbone",
-		"underscore": "libraries/underscore"
+		"underscore": "libraries/underscore",
+		"bootstrapModal": "libraries/modal"
+	},
+	shim: {
+		'bootstrapModal': { 
+			deps: ['jquery'], 
+			exports: '$.fn.modal' 
+		}
 	}
 });
 

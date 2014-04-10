@@ -32,7 +32,10 @@ app.configure(function() {
 
 	// create
 	app.post("/api/" + key, function(req, res) {
-		collection.save(req.body, function(error, saved) {
+		var body = req.body;
+		delete body._id;
+
+		collection.save(body, function(error, saved) {
 			if (!error) {
 				res.send(saved, 200);
 			}
@@ -58,7 +61,10 @@ app.configure(function() {
 
 	// update
 	app.put("/api/" + key + "/:id", function(req, res) {
-		collection.update({ _id: ObjectId(req.params.id) }, req.body, function(error) {
+		var body = req.body;
+		delete body._id;
+
+		collection.update({ _id: ObjectId(req.params.id) }, body, function(error) {
 			if (!error) {
 				collection.findOne({ _id: ObjectId(req.params.id) }, function(error, updatedObject) {
 					res.send(updatedObject);
