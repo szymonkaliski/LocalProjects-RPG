@@ -34,3 +34,8 @@
 - 15:05 - 15:35 - "hello world!" in browser console from backbone with simple router on frontend
 - 15:45 - 16:00 - bootstrap with less for CMS
 - 16:15 - 17:00 - working collection fetching and template views in backbone
+
+#10/04/2014
+
+- 10:15 - 11:00 - basic token displaying in cms view
+- 11:10 - 11:30 - can add and remove tokens from cms view

@@ -4,10 +4,15 @@ define([
 	"text!templates/cmsToken.tpl"
 ], function($, Backbone, ViewTemplate) {
 	return Backbone.View.extend({
-		tagName: "div",
+		tagName: "tr",
+
+		events: {
+			"click .remove": "remove",
+			"click .edit": "edit"
+		},
 
 		initialize: function(options) {
-			_.bindAll(this, "render");
+			_.bindAll(this, "render", "edit", "remove");
 
 			// save options
 			this.options = options;
@@ -20,5 +25,13 @@ define([
 
 			return this;
 		},
+
+		edit: function() {
+			console.log("EDIT");
+		},
+
+		remove: function() {
+			this.model.destroy();
+		}
 	});
 });

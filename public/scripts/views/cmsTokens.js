@@ -1,14 +1,19 @@
 define([
 	"jquery",
 	"backbone",
+	"models/token",
 	"views/cmsToken",
 	"text!templates/cmsTokens.tpl"
-], function($, Backbone, CMSToken, ViewTemplate) {
+], function($, Backbone, Token, CMSToken, ViewTemplate) {
 	return Backbone.View.extend({
 		el: "body",
 
+		events: {
+			"submit form": "submit"
+		},
+
 		initialize: function(options) {
-			_.bindAll(this, "render");
+			_.bindAll(this, "render", "submit");
 
 			// save options
 			this.options = options;
@@ -17,7 +22,7 @@ define([
 			this.render();
 
 			// re-render on collection sync
-			this.options.tokens.on("sync", function() {
+			this.options.tokens.on("sync add remove", function() {
 				this.render();
 			}.bind(this));
 		},
@@ -35,5 +40,17 @@ define([
 
 			return this;
 		},
+
+		submit: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			var name = this.$el.find("form #token-name").val();
+			if (name.length > 0) {
+				var token = new Token({ "name": name });
+				token.save();
+				this.options.tokens.add(token);
+			}
+		}
 	});
 });

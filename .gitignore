@@ -11,3 +11,4 @@ components/
 public/scripts/libraries/
 public/scripts/*.min.js
 public/styles/bootstrap/
+public/fonts/*

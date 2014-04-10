@@ -6,7 +6,13 @@ define([
 		baseUrl: "/api/token",
 
 		url: function() {
-			return this.baseUrl + "/" + this.id;
+			var url = this.baseUrl;
+
+			if (this.id) {
+				url += "/" + this.id;
+			}
+
+			return url;
 		},
 
 		defaults: {
