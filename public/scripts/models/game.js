@@ -6,11 +6,19 @@ define([
 		baseUrl: "/api/game",
 
 		url: function() {
-			return this.baseUrl + "/" + this.id;
+			var url = this.baseUrl;
+
+			if (this.id) {
+				url += "/" + this.id;
+			}
+
+			return url;
 		},
 
-		// TODO: set game defaults
+
 		defaults: {
+			"name": null,
+			"questions": {}
 		}
 	});
 });

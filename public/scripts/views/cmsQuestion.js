@@ -9,24 +9,25 @@ define([
 		tagName: "li",
 
 		events: {
-			"click .question-remove": "remove",
-			"click .question-edit": "edit",
-			"click .question-save": "save",
-			"click .question-add": "add"
+			"click .question-remove": "removeQuestion",
+			"click .question-edit": "editQuestion",
+			"click .question-save": "saveQuestion",
+			"click .token-add": "addToken"
 		},
 
-		dom: {
-			"form": null
-		},
+		"form": null,
+		"tokenList": null,
+		children: [],
 
 		initialize: function(options) {
-			_.bindAll(this, "render", "edit", "remove", "save", "add", "tokenRemoved");
+			_.bindAll(this, "render", "editQuestion", "removeQuestion", "saveQuestion", "addToken", "tokenRemoved", "tokenRenamed", "remove");
 
 			// save options
 			this.options = options;
 
 			// handle bus events
 			Bus.on("tokenRemoved", this.tokenRemoved);
+			Bus.on("tokenRenamed", this.tokenRenamed);
 		},
 
 		render: function() {
@@ -43,8 +44,8 @@ define([
 			}));
 
 			// save dom elements
-			this.dom.form = this.$el.find("form");
-			var $tokenList = this.$el.find(".tokens-list");
+			this.form = this.$el.find("form");
+			this.tokenList = this.$el.find(".tokens-list");
 
 			// add token views below question
 			for (var key in modelTokens) {
@@ -53,21 +54,23 @@ define([
 					"model": modelToken,
 					"questionID": this.model.id
 				});
-				$tokenList.append(tokenView.render().el);
+
+				this.tokenList.append(tokenView.render().el);
+				this.children.push(tokenView);
 			}
 
 			return this;
 		},
 
-		edit: function() {
+		editQuestion: function() {
 			this.modal.modal("show");
 		},
 
-		remove: function() {
+		removeQuestion: function() {
 			this.model.destroy();
 		},
 
-		save: function() {
+		saveQuestion: function() {
 			var name = this.modal.find("input.name").val();
 
 			if (name.length > 0) {
@@ -76,12 +79,12 @@ define([
 			}
 		},
 
-		add: function(event) {
+		addToken: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 
 			// add selected token to model
-			var selectedID = this.dom.form.find("select :selected").data("id");
+			var selectedID = this.form.find("select :selected").data("id");
 			var tokens = this.model.get("tokens");
 			tokens[selectedID] = 0;
 			this.model.set("tokens", tokens);
@@ -95,6 +98,37 @@ define([
 				this.model.set("tokens", tokens);
 				this.model.save();
 			}
+		},
+
+		tokenRenamed: function(event) {
+			// when token was renamed, redraw all tokens from questions
+			// to be safe that they are named properly
+
+			this.tokenList.empty();
+			var modelTokens = this.options.model.get("tokens");
+
+			for (var key in modelTokens) {
+				var modelToken = this.options.tokens.get(key);
+
+				var tokenView = new CMSTokenView({
+					"model": modelToken,
+					"questionID": this.model.id
+				});
+
+				this.tokenList.append(tokenView.render().el);
+			}
+		},
+
+		remove: function() {
+			this.undelegateEvents();
+			this.$el.empty();
+			this.stopListening();
+
+			this.children.forEach(function(child) {
+				child.remove();
+			});
+
+			return this;
 		}
 	});
 });

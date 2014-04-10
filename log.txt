@@ -42,3 +42,4 @@
 - 11:35 - 12:05 - working token name editing in cms
 - 12:20 - 13:05 - initial questions editing
 - 15:35 - 16:05 - ability to add and remove tokens from questions in cms
+- 16:05 - 16:40 - fixes for cms (was braking on renaming tokens in questions)

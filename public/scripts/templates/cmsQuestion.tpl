@@ -14,7 +14,7 @@
 				<% }) %>
 			</select>
 		</div>
-		<button type="submit" class="question-add btn btn-default">Add</button>
+		<button type="submit" class="token-add btn btn-default">Add</button>
 	</form>
 <% } %>
 

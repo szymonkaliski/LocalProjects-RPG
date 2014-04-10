@@ -9,17 +9,15 @@ define([
 		tagName: "li",
 
 		events: {
-			"click .token-remove": "remove",
-			"click .token-edit": "edit",
-			"click .token-save": "save"
+			"click .token-remove": "removeToken",
+			"click .token-edit": "editToken",
+			"click .token-save": "saveToken"
 		},
 
-		dom: {
-			"modal": null
-		},
+		"modal": null,
 
 		initialize: function(options) {
-			_.bindAll(this, "render", "edit", "remove", "save");
+			_.bindAll(this, "render", "editToken", "removeToken", "saveToken");
 
 			// save options
 			this.options = options;
@@ -38,11 +36,11 @@ define([
 			return this;
 		},
 
-		edit: function() {
+		editToken: function() {
 			this.modal.modal("show");
 		},
 
-		remove: function() {
+		removeToken: function() {
 			// if token is displayed inside question, then on remove
 			// it should be removed from question, not from server
 			if (this.options.questionID) {
@@ -54,12 +52,11 @@ define([
 			// if token is removed on cms token list it should be removed 
 			// from server
 			else {
-				console.log("DESTROY");
 				this.model.destroy();
 			}
 		},
 
-		save: function() {
+		saveToken: function() {
 			var name = this.modal.find("input.name").val();
 
 			if (name.length > 0) {
@@ -67,6 +64,11 @@ define([
 				this.model.save();
 
 				this.modal.modal("hide");
+
+				Bus.trigger("tokenRenamed", {
+					"tokenID": this.model.id,
+					"questionID": this.options.questionID
+				});
 			}
 		}
 	});

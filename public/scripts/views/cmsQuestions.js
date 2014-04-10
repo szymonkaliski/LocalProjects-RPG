@@ -1,19 +1,19 @@
 define([
 	"jquery",
 	"backbone",
-	"models/token",
+	"models/question",
 	"views/cmsQuestion",
 	"text!templates/cmsQuestions.tpl"
-], function($, Backbone, Token, CMSQuestion, ViewTemplate) {
+], function($, Backbone, Question, CMSQuestion, ViewTemplate) {
 	return Backbone.View.extend({
 		el: "body",
 
 		events: {
-			"submit form": "submit"
+			"click .question-add": "addQuestion"
 		},
 
 		initialize: function(options) {
-			_.bindAll(this, "render", "submit");
+			_.bindAll(this, "render", "addQuestion");
 
 			// save options
 			this.options = options;
@@ -45,16 +45,16 @@ define([
 			return this;
 		},
 
-		submit: function(event) {
+		addQuestion: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 
-			// var name = this.$el.find("form #token-name").val();
-			// if (name.length > 0) {
-			// 	var token = new Token({ "name": name });
-			// 	token.save();
-			// 	this.options.tokens.add(token);
-			// }
+			var name = this.$el.find("form #question-name").val();
+			if (name.length > 0) {
+				var question = new Question({ "name": name });
+				question.save();
+				this.options.questions.add(question);
+			}
 		}
 	});
 });

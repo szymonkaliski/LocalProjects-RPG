@@ -9,11 +9,13 @@ define([
 		el: "body",
 
 		events: {
-			"submit form": "submit"
+			"click .token-add": "addToken"
 		},
 
+		children: [],
+
 		initialize: function(options) {
-			_.bindAll(this, "render", "submit");
+			_.bindAll(this, "render", "addToken");
 
 			// save options
 			this.options = options;
@@ -36,12 +38,13 @@ define([
 			this.options.tokens.forEach(function(token) {
 				var tokenView = new CMSTokenView({ "model": token });
 				$tokenList.append(tokenView.render().el);
+				this.children.push(tokenView);
 			}.bind(this));
 
 			return this;
 		},
 
-		submit: function(event) {
+		addToken: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 
@@ -51,6 +54,18 @@ define([
 				token.save();
 				this.options.tokens.add(token);
 			}
+		},
+
+		remove: function() {
+			this.undelegateEvents();
+			this.$el.empty();
+			this.stopListening();
+
+			this.children.forEach(function(child) {
+				child.remove();
+			});
+
+			return this;
 		}
 	});
 });
