@@ -106,7 +106,12 @@ define([
 			event.preventDefault();
 			event.stopPropagation();
 
-			// TODO: add ability to insert question from list
+			// add selected question to game
+			var selectedID = this.$el.find("form select :selected").data("id");
+			var gameQuestions = this.options.game.get("questions");
+			gameQuestions.push(selectedID);
+			this.options.game.set("questions", gameQuestions);
+			this.options.game.save();
 		},
 
 		questionRemoved: function(event) {

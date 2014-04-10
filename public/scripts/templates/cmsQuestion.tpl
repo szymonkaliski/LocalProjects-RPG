@@ -7,7 +7,7 @@
 <% if (tokens.length > 0) { %>
 	<form class="form-inline" role="form">
 		<div class="form-group">
-			<label>Token id:</label>
+			<label>Token:</label>
 			<select class="form-control">
 				<% tokens.forEach(function(token) { %>
 					<option data-id="<%= token.id %>"><%= token.get("name") %></option>

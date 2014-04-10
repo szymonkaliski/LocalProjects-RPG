@@ -51,13 +51,16 @@ define([
 			// add token views below question
 			for (var key in modelTokens) {
 				var modelToken = this.options.tokens.get(key);
-				var tokenView = new CMSTokenView({
-					"model": modelToken,
-					"questionID": this.model.id
-				});
 
-				this.tokenList.append(tokenView.render().el);
-				this.children.push(tokenView);
+				if (modelToken) {
+					var tokenView = new CMSTokenView({
+						"model": modelToken,
+						"questionID": this.model.id
+					});
+
+					this.tokenList.append(tokenView.render().el);
+					this.children.push(tokenView);
+				}
 			}
 
 			return this;

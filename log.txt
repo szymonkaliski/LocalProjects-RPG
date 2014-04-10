@@ -1,4 +1,5 @@
 #09/04/2014
+2:15 total
 
 - 11:15 - 11:30 - project structure implemented with node / mongo / grunt
 - 12:00 - 12:30 - basic crud implementation:
@@ -36,6 +37,7 @@
 - 16:15 - 17:00 - working collection fetching and template views in backbone
 
 #10/04/2014
+5:35 total
 
 - 10:15 - 11:00 - basic token displaying in cms view
 - 11:10 - 11:30 - can add and remove tokens from cms view
@@ -45,3 +47,4 @@
 - 16:05 - 16:40 - fixes for cms (was braking on renaming tokens in questions)
 - 18:30 - 19:35 - properly working cms for game, questions and tokens, all that's left is wiring it all together
 - 19:50 - 20:45 - fighting with bug when removing questions from game, hopefull with success
+- 20:45 - 20:55 - add question from list of existing into the game
