@@ -30,19 +30,23 @@ define([
 
 			// re-render on collection sync
 			var rerender = _.debounce(function() {
-				this.children.forEach(function(child) {
-					child.remove();
-				});
+				for (var i = 0; i < this.children.length; ++i) {
+					this.children[i].remove();
+				}
 				this.children.length = 0;
 
 				this.render();
-			}.bind(this), 200);
+			}.bind(this), 10);
 
 			this.options.tokens.on("sync add remove", rerender);
 			if (Bus) Bus.on("impactChange", this.impactChange);
 		},
 
 		render: function() {
+			if ($("#main").length === 0) {
+				$("body").append("<div id='main'></div>");
+			}
+
 			// get tokens from model
 			var modelTokens = this.options.model.get("tokens");
 
@@ -156,10 +160,9 @@ define([
 			this.undelegateEvents();
 			this.$el.removeData().unbind();
 
-			this.children.forEach(function(child) {
-				child.undelegateEvents();
-				child.remove();
-			}.bind(this));
+			for (var i = 0; i < this.children.length; ++i) {
+				this.children[i].remove();
+			}
 
 			Backbone.View.prototype.remove.call(this);
 

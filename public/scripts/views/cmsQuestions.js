@@ -6,7 +6,7 @@ define([
 	"text!templates/cmsQuestions.tpl"
 ], function($, Backbone, Question, CMSQuestionView, ViewTemplate) {
 	return Backbone.View.extend({
-		el: "body",
+		el: "#main",
 
 		events: {
 			"click .question-add-new": "addQuestionNew",
@@ -26,18 +26,26 @@ define([
 
 			// re-render on collection sync
 			var rerender = _.debounce(function() {
-				this.children.forEach(function(child) {
-					child.remove();
-				});
+				for (var i = 0; i < this.children.length; ++i) {
+					this.children[i].remove();
+				}
 				this.children.length = 0;
 
 				this.render();
-			}.bind(this), 200);
+			}.bind(this), 10);
 
 			this.options.questions.on("sync add remove", rerender);
 		},
 
 		render: function() {
+			if ($("#main").length === 0) {
+				$("body").append("<div id='main'></div>");
+			}
+
+			if (this.options.gameID) {
+				this.options.game = this.options.games.get(this.options.gameID);
+			}
+
 			var gameQuestions = this.options.game ? this.options.game.get("questions") : [];
 
 			// render basic view
@@ -123,10 +131,9 @@ define([
 			this.undelegateEvents();
 			this.$el.removeData().unbind();
 
-			this.children.forEach(function(child) {
-				child.undelegateEvents();
-				child.remove();
-			});
+			for (var i = 0; i < this.children.length; ++i) {
+				this.children[i].remove();
+			}
 			this.children.length = 0;
 
 			Backbone.View.prototype.remove.call(this);

@@ -7,7 +7,7 @@ define([
 	"text!templates/cmsGames.tpl"
 ], function($, Backbone, Game, CMSGameView, CMSQuestionsView, ViewTemplate) {
 	return Backbone.View.extend({
-		el: "body",
+		el: "#main",
 
 		events: {
 			"click .game-add": "addGame"
@@ -26,29 +26,30 @@ define([
 
 			// re-render on collection sync
 			var rerender = _.debounce(function() {
-				this.children.forEach(function(child) {
-					child.remove();
-				});
+				for (var i = 0; i < this.children.length; ++i) {
+					this.children[i].remove();
+				}
 				this.children.length = 0;
 
 				this.render();
-			}.bind(this), 200);
+			}.bind(this), 10);
 			
 			this.options.games.on("sync add remove", rerender);
 		},
 
 		render: function() {
+			if ($("#main").length === 0) {
+				$("body").append("<div id='main'></div>");
+			}
+
 			// if id passed with options, then render view with questions for given game
 			if (this.options.id) {
 				var game = this.options.games.get(this.options.id);
 
-				this.children.forEach(function(child) {
-					child.remove();
-				});
-
 				this.children = [
 					new CMSQuestionsView({
 						"game": game,
+						"gameID": this.options.id,
 						"games": this.options.games,
 						"questions": this.options.questions,
 						"tokens": this.options.tokens
@@ -94,9 +95,9 @@ define([
 			this.undelegateEvents();
 			this.$el.removeData().unbind();
 
-			this.children.forEach(function(child) {
-				child.remove();
-			});
+			for (var i = 0; i < this.children.length; ++i) {
+				this.children[i].remove();
+			}
 
 			Backbone.View.prototype.remove.call(this);
 

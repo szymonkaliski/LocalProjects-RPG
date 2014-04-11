@@ -23,13 +23,9 @@ define([
 			"*actions": "defaultAction"
 		},
 
-		switchToView: function(view, options) {
-			if (this.currentView) this.currentView.remove();
-
-			this.currentView = new view(options);
-		},
-
 		initialize: function() {
+			_.bindAll(this, "switchToView");
+
 			// ASSUMPTION: all three collections are relatively small,
 			// fetching them all at beginning shouldn't make an impact;
 			// this might change in the future
@@ -42,6 +38,18 @@ define([
 
 			this.tokens = new Tokens();
 			this.tokens.fetch();
+		},
+
+		switchToView: function(view, options) {
+			if (this.currentView) {
+				this.currentView.remove();
+			}
+
+			if ($("#main").length === 0) {
+				$("body").append("<div id='main'></div>");
+			}
+
+			this.currentView = new view(options);
 		},
 
 		cmsGame: function(id) {

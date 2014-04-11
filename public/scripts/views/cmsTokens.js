@@ -6,7 +6,7 @@ define([
 	"text!templates/cmsTokens.tpl"
 ], function($, Backbone, Token, CMSTokenView, ViewTemplate) {
 	return Backbone.View.extend({
-		el: "body",
+		el: "#main",
 
 		events: {
 			"click .token-add": "addToken"
@@ -25,18 +25,22 @@ define([
 
 			// re-render on collection sync
 			var rerender = _.debounce(function() {
-				this.children.forEach(function(child) {
-					child.remove();
-				});
+				for (var i = 0; i < this.children.length; ++i) {
+					this.children[i].remove();
+				}
 				this.children.length = 0;
 
 				this.render();
-			}.bind(this), 200);
+			}.bind(this), 10);
 
 			this.options.tokens.on("sync add remove", rerender);
 		},
 
 		render: function() {
+			if ($("#main").length === 0) {
+				$("body").append("<div id='main'></div>");
+			}
+
 			// render basic view
 			this.$el.html(_.template(ViewTemplate));
 			var $tokenList = this.$el.find(".token-list");
@@ -70,9 +74,9 @@ define([
 			this.undelegateEvents();
 			this.$el.removeData().unbind();
 
-			this.children.forEach(function(child) {
-				child.remove();
-			});
+			for (var i = 0; i < this.children.length; ++i) {
+				this.children[i].remove();
+			}
 
 			Backbone.View.prototype.remove.call(this);
 
