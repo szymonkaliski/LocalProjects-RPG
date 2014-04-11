@@ -14,8 +14,7 @@
 		<button type="submit" class="question-add-new btn btn-default">Add new question</button>
 	</form>
 
-
-	<% if (game) { %>
+	<% if (game && questions.length > 0) { %>
 		<form class="form-inline" role="form">
 			<div class="form-group">
 				<label>Available questions:</label>

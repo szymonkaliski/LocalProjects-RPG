@@ -48,3 +48,7 @@
 - 18:30 - 19:35 - properly working cms for game, questions and tokens, all that's left is wiring it all together
 - 19:50 - 20:45 - fighting with bug when removing questions from game, hopefull with success
 - 20:45 - 20:55 - add question from list of existing into the game
+
+#11/04/2014
+
+- 10:45 - 11:45 - more bug squashing, almost fully functioning cms

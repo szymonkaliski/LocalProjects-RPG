@@ -1,4 +1,4 @@
-<%= model.get("name") %>
+<h4><%= model.get("name") %></h4>
 
 <button type="button" class="btn btn-default btn-xs token-edit">
 	<span class="glyphicon glyphicon-edit"></span>

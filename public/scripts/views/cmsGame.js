@@ -2,9 +2,8 @@ define([
 	"jquery",
 	"backbone",
 	"bootstrapModal",
-	"addons/bus",
 	"text!templates/cmsGame.tpl"
-], function($, Backbone, BootstrapModal, Bus, ViewTemplate) {
+], function($, Backbone, BootstrapModal, ViewTemplate) {
 	return Backbone.View.extend({
 		tagName: "li",
 

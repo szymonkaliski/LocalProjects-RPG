@@ -1,10 +1,10 @@
 define([
 	"jquery",
 	"backbone",
-	"addons/bus",
+	"models/token",
 	"views/cmsToken",
 	"text!templates/cmsQuestion.tpl"
-], function($, Backbone, Bus, CMSTokenView, ViewTemplate) {
+], function($, Backbone, Token, CMSTokenView, ViewTemplate) {
 	return Backbone.View.extend({
 		tagName: "li",
 
@@ -12,6 +12,7 @@ define([
 			"click .question-remove": "removeQuestion",
 			"click .question-edit": "editQuestion",
 			"click .question-save": "saveQuestion",
+			"click .token-add-new": "addTokenNew",
 			"click .token-add": "addToken"
 		},
 
@@ -21,14 +22,20 @@ define([
 		children: [],
 
 		initialize: function(options) {
-			_.bindAll(this, "render", "editQuestion", "removeQuestion", "saveQuestion", "addToken", "tokenRemoved", "tokenRenamed", "remove");
+			_.bindAll(this, "render", "editQuestion", "removeQuestion", "saveQuestion", "addToken", "addTokenNew", "remove");
 
 			// save options
 			this.options = options;
 
-			// handle bus events
-			Bus.on("tokenRemoved", this.tokenRemoved);
-			Bus.on("tokenRenamed", this.tokenRenamed);
+			// re-render
+			var rerender = function() {
+				this.remove();
+
+				this.delegateEvents();
+				this.render();
+			}.bind(this);
+
+			this.options.tokens.on("sync add remove", rerender);
 		},
 
 		render: function() {
@@ -39,7 +46,7 @@ define([
 			this.$el.html(_.template(ViewTemplate, {
 				"model": this.options.model,
 				"tokens": this.options.tokens.filter(function(token) {
-					// you can only add tokens that are not already connected to question
+					// in selection display only tokens that aren't already added to the question
 					return (modelTokens[token.id] === undefined);
 				})
 			}));
@@ -71,19 +78,7 @@ define([
 		},
 
 		removeQuestion: function() {
-			// if question is displayed inside game, then on remove
-			// it should be removed from game, not from server
-			if (this.options.gameID) {
-				Bus.trigger("questionRemoved", {
-					"questionID": this.model.id,
-					"gameID": this.options.gameID
-				});
-			}
-			// if question is removed on cms token list it should be removed
-			// from server
-			else {
-				this.model.destroy();
-			}
+			this.model.destroy();
 		},
 
 		saveQuestion: function() {
@@ -92,6 +87,28 @@ define([
 			if (name.length > 0) {
 				this.model.set("name", name);
 				this.model.save();
+			}
+		},
+
+		addTokenNew: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			var name = this.form.find(".token-name").val();
+
+			if (name.length > 0) {
+				var token = new Token({ "name": name });
+
+				token.save({}, {
+					"success": function() {
+						this.options.tokens.add(token);
+
+						var tokens = this.model.get("tokens");
+						tokens[token.id] = 0;
+						this.model.set("tokens", tokens);
+						this.model.save();
+					}.bind(this)
+				});
 			}
 		},
 
@@ -105,34 +122,6 @@ define([
 			tokens[selectedID] = 0;
 			this.model.set("tokens", tokens);
 			this.model.save();
-		},
-
-		tokenRemoved: function(event) {
-			if (this.model.id === event.questionID) {
-				var tokens = this.model.get("tokens");
-				delete tokens[event.tokenID];
-				this.model.set("tokens", tokens);
-				this.model.save();
-			}
-		},
-
-		tokenRenamed: function(event) {
-			// when token was renamed, redraw all tokens from questions
-			// to be safe that they are named properly
-
-			this.tokenList.empty();
-			var modelTokens = this.options.model.get("tokens");
-
-			for (var key in modelTokens) {
-				var modelToken = this.options.tokens.get(key);
-
-				var tokenView = new CMSTokenView({
-					"model": modelToken,
-					"questionID": this.model.id
-				});
-
-				this.tokenList.append(tokenView.render().el);
-			}
 		},
 
 		remove: function() {
