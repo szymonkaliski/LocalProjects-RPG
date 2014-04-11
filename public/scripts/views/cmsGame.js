@@ -35,15 +35,24 @@ define([
 			return this;
 		},
 
-		editGame: function() {
+		editGame: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
 			this.modal.modal("show");
 		},
 
-		removeGame: function() {
+		removeGame: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
 			this.model.destroy();
 		},
 
-		saveGame: function() {
+		saveGame: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
 			var name = this.modal.find("input.name").val();
 
 			if (name.length > 0) {

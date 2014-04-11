@@ -4,7 +4,7 @@ define([
 	"models/question",
 	"views/cmsQuestion",
 	"text!templates/cmsQuestions.tpl"
-], function($, Backbone, Question, CMSQuestion, ViewTemplate) {
+], function($, Backbone, Question, CMSQuestionView, ViewTemplate) {
 	return Backbone.View.extend({
 		el: "body",
 
@@ -25,15 +25,16 @@ define([
 			this.render();
 
 			// re-render on collection sync
-			var rerender = function() {
-				this.remove();
+			var rerender = _.debounce(function() {
+				this.children.forEach(function(child) {
+					child.remove();
+				});
+				this.children.length = 0;
 
-				this.delegateEvents();
 				this.render();
-			}.bind(this);
+			}.bind(this), 200);
 
 			this.options.questions.on("sync add remove", rerender);
-			if (this.options.games) this.options.games.on("sync add remove", rerender);
 		},
 
 		render: function() {
@@ -55,27 +56,27 @@ define([
 					var model = this.options.questions.get(gameID);
 
 					if (model) {
-						var questionView = new CMSQuestion({
+						var questionView = new CMSQuestionView({
 							"gameID": this.options.game.id,
 							"model": model,
 							"tokens": this.options.tokens
 						});
 
-						$questionList.append(questionView.render().el);
 						this.children.push(questionView);
+						$questionList.append(questionView.render().el);
 					}
 				}.bind(this));
 			}
 			// otherwise render all questions
 			else {
 				this.options.questions.forEach(function(question) {
-					var questionView = new CMSQuestion({
+					var questionView = new CMSQuestionView({
 						"model": question,
 						"tokens": this.options.tokens
 					});
 
-					$questionList.append(questionView.render().el);
 					this.children.push(questionView);
+					$questionList.append(questionView.render().el);
 				}.bind(this));
 			}
 
@@ -120,12 +121,15 @@ define([
 
 		remove: function() {
 			this.undelegateEvents();
-			this.$el.empty();
-			this.stopListening();
+			this.$el.removeData().unbind();
 
 			this.children.forEach(function(child) {
+				child.undelegateEvents();
 				child.remove();
 			});
+			this.children.length = 0;
+
+			Backbone.View.prototype.remove.call(this);
 
 			return this;
 		}

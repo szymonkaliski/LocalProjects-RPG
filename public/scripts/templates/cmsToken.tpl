@@ -1,5 +1,14 @@
 <h4><%= model.get("name") %></h4>
 
+<% if (impact !== undefined) { %>
+	<form class="form-inline" role="form">
+		<div class="form-group">
+			<label>Impact</label>
+			<input type="number" class="form-control impact" value="<%= impact %>">
+		</div>
+	</form>
+<% } %>
+
 <button type="button" class="btn btn-default btn-xs token-edit">
 	<span class="glyphicon glyphicon-edit"></span>
 </button>

@@ -25,18 +25,26 @@ define([
 			this.render();
 
 			// re-render on collection sync
-			this.options.games.on("sync add remove", function() {
-				this.remove();
+			var rerender = _.debounce(function() {
+				this.children.forEach(function(child) {
+					child.remove();
+				});
+				this.children.length = 0;
 
-				this.delegateEvents();
 				this.render();
-			}.bind(this));
+			}.bind(this), 200);
+			
+			this.options.games.on("sync add remove", rerender);
 		},
 
 		render: function() {
 			// if id passed with options, then render view with questions for given game
 			if (this.options.id) {
 				var game = this.options.games.get(this.options.id);
+
+				this.children.forEach(function(child) {
+					child.remove();
+				});
 
 				this.children = [
 					new CMSQuestionsView({
@@ -84,12 +92,13 @@ define([
 
 		remove: function() {
 			this.undelegateEvents();
-			this.$el.empty();
-			this.stopListening();
+			this.$el.removeData().unbind();
 
 			this.children.forEach(function(child) {
 				child.remove();
 			});
+
+			Backbone.View.prototype.remove.call(this);
 
 			return this;
 		}

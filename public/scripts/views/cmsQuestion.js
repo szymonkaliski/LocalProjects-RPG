@@ -1,10 +1,11 @@
 define([
 	"jquery",
 	"backbone",
+	"addons/bus",
 	"models/token",
 	"views/cmsToken",
 	"text!templates/cmsQuestion.tpl"
-], function($, Backbone, Token, CMSTokenView, ViewTemplate) {
+], function($, Backbone, Bus, Token, CMSTokenView, ViewTemplate) {
 	return Backbone.View.extend({
 		tagName: "li",
 
@@ -22,20 +23,23 @@ define([
 		children: [],
 
 		initialize: function(options) {
-			_.bindAll(this, "render", "editQuestion", "removeQuestion", "saveQuestion", "addToken", "addTokenNew", "remove");
+			_.bindAll(this, "render", "editQuestion", "removeQuestion", "saveQuestion", "addToken", "addTokenNew", "impactChange", "remove");
 
 			// save options
 			this.options = options;
 
-			// re-render
-			var rerender = function() {
-				this.remove();
+			// re-render on collection sync
+			var rerender = _.debounce(function() {
+				this.children.forEach(function(child) {
+					child.remove();
+				});
+				this.children.length = 0;
 
-				this.delegateEvents();
 				this.render();
-			}.bind(this);
+			}.bind(this), 200);
 
 			this.options.tokens.on("sync add remove", rerender);
+			if (Bus) Bus.on("impactChange", this.impactChange);
 		},
 
 		render: function() {
@@ -62,6 +66,7 @@ define([
 				if (modelToken) {
 					var tokenView = new CMSTokenView({
 						"model": modelToken,
+						"impact": modelTokens[key],
 						"questionID": this.model.id
 					});
 
@@ -73,15 +78,24 @@ define([
 			return this;
 		},
 
-		editQuestion: function() {
+		editQuestion: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
 			this.modal.modal("show");
 		},
 
-		removeQuestion: function() {
+		removeQuestion: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
 			this.model.destroy();
 		},
 
-		saveQuestion: function() {
+		saveQuestion: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
 			var name = this.modal.find("input.name").val();
 
 			if (name.length > 0) {
@@ -124,14 +138,30 @@ define([
 			this.model.save();
 		},
 
+		impactChange: function(event) {
+			if (event.questionID === this.model.id) {
+				var tokens = this.model.get("tokens");
+				tokens[event.tokenID] = event.value;
+				this.model.set("tokens", tokens);
+				this.model.save();
+			}
+		},
+
 		remove: function() {
+			// FIXME: ugly fix for zombie views; cmsQuestions probably stays alive,
+			// but couldn't find a place where, cmsQuestion removes all child views,
+			// so it's pretty strange
+			Bus = null;
+
 			this.undelegateEvents();
-			this.$el.empty();
-			this.stopListening();
+			this.$el.removeData().unbind();
 
 			this.children.forEach(function(child) {
+				child.undelegateEvents();
 				child.remove();
-			});
+			}.bind(this));
+
+			Backbone.View.prototype.remove.call(this);
 
 			return this;
 		}

@@ -24,12 +24,16 @@ define([
 			this.render();
 
 			// re-render on collection sync
-			this.options.tokens.on("sync add remove", function() {
-				this.remove();
+			var rerender = _.debounce(function() {
+				this.children.forEach(function(child) {
+					child.remove();
+				});
+				this.children.length = 0;
 
-				this.delegateEvents();
 				this.render();
-			}.bind(this));
+			}.bind(this), 200);
+
+			this.options.tokens.on("sync add remove", rerender);
 		},
 
 		render: function() {
@@ -64,12 +68,13 @@ define([
 
 		remove: function() {
 			this.undelegateEvents();
-			this.$el.empty();
-			this.stopListening();
+			this.$el.removeData().unbind();
 
 			this.children.forEach(function(child) {
 				child.remove();
 			});
+
+			Backbone.View.prototype.remove.call(this);
 
 			return this;
 		}
