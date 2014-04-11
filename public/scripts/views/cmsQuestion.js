@@ -122,7 +122,7 @@ define([
 						this.options.tokens.add(token);
 
 						var tokens = this.model.get("tokens");
-						tokens[token.id] = 0;
+						tokens[token.id] = { "yes": 0, "no": 0 };
 						this.model.set("tokens", tokens);
 						this.model.save();
 					}.bind(this)
@@ -137,7 +137,7 @@ define([
 			// add selected token to model
 			var selectedID = this.form.find("select :selected").data("id");
 			var tokens = this.model.get("tokens");
-			tokens[selectedID] = 0;
+			tokens[selectedID] = { "yes": 0, "no": 0 };
 			this.model.set("tokens", tokens);
 			this.model.save();
 		},

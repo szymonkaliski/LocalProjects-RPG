@@ -56,3 +56,4 @@
                   also added ability to add new questions and tokens from game cms, and add impact by those questions on tokens,
                   CMS isn't pretty but get's the job done, and I can finally start focusing on frontned
 - 13:30 - 14:05 - all bugs squashed, finally on the right track...
+- 15:15 - 15:30 - added yes/no impact to tokens

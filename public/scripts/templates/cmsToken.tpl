@@ -3,8 +3,10 @@
 <% if (impact !== undefined) { %>
 	<form class="form-inline" role="form">
 		<div class="form-group">
-			<label>Impact</label>
-			<input type="number" class="form-control impact" value="<%= impact %>">
+			<label>Yes</label>
+			<input type="number" class="form-control impact-yes" value="<%= impact.yes %>">
+			<label>No</label>
+			<input type="number" class="form-control impact-no" value="<%= impact.no %>">
 		</div>
 	</form>
 <% } %>

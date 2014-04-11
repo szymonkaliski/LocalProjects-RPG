@@ -12,7 +12,8 @@ define([
 			"click .token-remove": "removeToken",
 			"click .token-edit": "editToken",
 			"click .token-save": "saveToken",
-			"change .impact": "impactChange"
+			"change .impact-yes": "impactChange",
+			"change .impact-no": "impactChange"
 		},
 
 		modal: null,
@@ -72,11 +73,16 @@ define([
 			event.preventDefault();
 			event.stopPropagation();
 
-			var value = this.$el.find(".impact").val();
+			var valueYes = this.$el.find(".impact-yes").val();
+			var valueNo = this.$el.find(".impact-no").val();
+
 			Bus.trigger("impactChange", {
 				"questionID": this.options.questionID,
 				"tokenID": this.model.id,
-				"value": parseInt(value, 10)
+				"value": {
+					"yes": parseInt(valueYes, 10),
+					"no": parseInt(valueNo, 10)
+				}
 			});
 		}
 	});
