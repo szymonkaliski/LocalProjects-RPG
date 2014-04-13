@@ -20,9 +20,6 @@ define([
 			// save options
 			this.options = options;
 
-			// render on start
-			this.render();
-
 			// re-render on collection sync
 			var rerender = _.debounce(function() {
 				for (var i = 0; i < this.children.length; ++i) {
@@ -31,7 +28,8 @@ define([
 				this.children.length = 0;
 
 				this.render();
-			}.bind(this), 10);
+			}.bind(this), 100);
+			rerender();
 
 			this.options.tokens.on("sync add remove", rerender);
 		},

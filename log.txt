@@ -50,6 +50,7 @@
 - 20:45 - 20:55 - add question from list of existing into the game
 
 #11/04/2014
+3:20 total
 
 - 10:45 - 11:45 - more bug squashing, almost fully functioning cms
 - 11:55 - 13:25 - hopefulyl all bugs squeshed, I forgot how painful was administering child views in backbone; 
@@ -57,3 +58,7 @@
                   CMS isn't pretty but get's the job done, and I can finally start focusing on frontned
 - 13:30 - 14:05 - all bugs squashed, finally on the right track...
 - 15:15 - 15:30 - added yes/no impact to tokens
+
+#13/04/2014
+
+- 15:00 - 15:10 - final cms bug fixes (hopefully)

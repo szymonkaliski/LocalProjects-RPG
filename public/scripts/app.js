@@ -8,9 +8,9 @@ require.config({
 		"bootstrapModal": "libraries/modal"
 	},
 	shim: {
-		'bootstrapModal': { 
-			deps: ['jquery'], 
-			exports: '$.fn.modal' 
+		'bootstrapModal': {
+			deps: [ "jquery" ],
+			exports: "$.fn.modal"
 		}
 	}
 });
