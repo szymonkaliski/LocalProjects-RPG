@@ -64,3 +64,4 @@
 - 15:00 - 15:10 - final cms bug fixes (hopefully)
 - 15:10 - 15:30 - initial game view
 - 15:45 - 17:00 - initial "blob"/radar chart reacting to answers
+- 18:00 - 19:45 - working fronted without style

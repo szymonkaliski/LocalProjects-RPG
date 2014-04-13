@@ -9,11 +9,12 @@ define([
 
 		events: {
 			"click .yes": "answerClicked",
-			"click .no": "answerClicked"
+			"click .no": "answerClicked",
+			"click .play-again": "restartGame"
 		},
 
 		initialize: function(options) {
-			_.bindAll(this, "render", "renderQuestion", "answerClicked");
+			_.bindAll(this, "render", "renderQuestion", "renderEndScreen", "answerClicked", "restartGame");
 
 			// save options
 			this.options = options;
@@ -26,29 +27,70 @@ define([
 				this.model = this.options.games.get(this.options.id);
 
 				// get individual tokens affected by this games questions
-				if (this.model) this.gameTokens = this.model.get("questions")
-					.map(function(questionID) {
-						var question = this.options.questions.get(questionID);
-						var questionTokens = [];
-						for (var key in question.get("tokens")) {
-							if (questionTokens.indexOf(key) < 0) questionTokens.push(key);
-						}
+				if (this.model)  {
+					this.gameTokens = this.model.get("questions")
+						.map(function(questionID) {
+							var question = this.options.questions.get(questionID);
+							var questionTokens = [];
+							for (var key in question.get("tokens")) {
+								if (questionTokens.indexOf(key) < 0) questionTokens.push(key);
+							}
 
-						return questionTokens;
-					}.bind(this))
-					.reduce(function(memo, tokenList) {
-						tokenList.forEach(function(tokenID) {
-							if (memo.indexOf(tokenID) < 0) memo.push(tokenID);
+							return questionTokens;
+						}.bind(this))
+						.reduce(function(memo, tokenList) {
+							tokenList.forEach(function(tokenID) {
+								if (memo.indexOf(tokenID) < 0) memo.push(tokenID);
+							});
+
+							return memo;
+						}, [])
+						.map(function(tokenID) {
+							return this.options.tokens.get(tokenID);
+						}.bind(this))
+						.filter(function(token) {
+							return (token !== undefined);
 						});
 
-						return memo;
-					}, [])
-					.map(function(tokenID) {
-						return this.options.tokens.get(tokenID);
-					}.bind(this))
-					.filter(function(token) {
-						return (token !== undefined);
+					// get property from array of objects
+					var indexOfProp = function(array, prop, value) {
+						return array.map(function(object) {
+							return object[prop];
+						}).indexOf(value);
+					};
+
+					// below is naive way of finding maximal and minimal possible outcome
+					// for token in given game
+					var maxValues = this.gameTokens.map(function(token) {
+						return { "id": token.id, "max": 0, "min": 0 };
 					});
+
+					this.model.get("questions")
+						.map(function(questionID) {
+							var question = this.options.questions.get(questionID);
+
+							for (var key in question.get("tokens")) {
+								var index = indexOfProp(maxValues, "id", key);
+								var val = question.get("tokens")[key];
+
+								if (index > 0) {
+									var max = Math.max(val.yes, val.no);
+									var min = Math.min(val.yes, val.no);
+
+									if (max > 0) maxValues[index].max += max;
+									if (min < 0) maxValues[index].min += min;
+								}
+							}
+						}.bind(this));
+
+					this.minValue = maxValues.reduce(function(memo, value) {
+						return (value.min < memo) ? value.min : memo;
+					}, 0);
+
+					this.maxValue = maxValues.reduce(function(memo, value) {
+						return (value.max > memo) ? value.max : memo;
+					}, 0);
+				}
 
 				this.render();
 			}.bind(this), 100);
@@ -64,6 +106,8 @@ define([
 			this.$el.html(_.template(ViewTemplate));
 			this.$canvas = this.$el.find(".game-canvas");
 			this.$question = this.$el.find(".question");
+			this.$gameActive = this.$el.find(".game-active");
+			this.$gameFinished = this.$el.find(".game-finished");
 
 			// render first question
 			this.renderQuestion();
@@ -71,17 +115,28 @@ define([
 			// setup paper game
 			this.gamePaper = new GamePaper(
 				this.$canvas,
-				this.gameTokens.map(function() { return 0; }),
-				"red"
+				this.gameTokens,
+				"green",
+				this.minValue,
+				this.maxValue
 			);
 		},
 
 		renderQuestion: function() {
 			var gameQuestions = this.model.get("questions");
-			var question = this.options.questions.get(gameQuestions[this.currentQuestion]);
-			this.$question.text(question.get("name"));
 
-			this.currentQuestion = (this.currentQuestion + 1) % gameQuestions.length;
+			if (this.currentQuestion === gameQuestions.length - 1) {
+				this.renderEndScreen();
+			}
+			else {
+				var question = this.options.questions.get(gameQuestions[this.currentQuestion]);
+				this.$question.text(question.get("name"));
+			}
+		},
+
+		renderEndScreen: function() {
+			this.$gameActive.hide();
+			this.$gameFinished.show();
 		},
 
 		answerClicked: function(event) {
@@ -95,16 +150,31 @@ define([
 			var question = this.options.questions.get(gameQuestions[this.currentQuestion]);
 			var questionTokens = question.get("tokens");
 
-			for (var key in questionTokens) {
-				var val = questionTokens[key];
-				var index = this.gameTokens.map(function(gameToken) {
+			var tokenIndex = function(gameTokens, key) {
+				return gameTokens.map(function(gameToken) {
 					return gameToken.id;
 				}).indexOf(key);
+			};
 
-				this.gamePaper.updateValue(index, val[answer]);
+			for (var key in questionTokens) {
+				var val = questionTokens[key];
+				var index = tokenIndex(this.gameTokens, key);
+				if (index > 0) this.gamePaper.updateValue(index, val[answer]);
 			}
 
+			this.currentQuestion++;
 			this.renderQuestion();
+		},
+
+		restartGame: function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			this.currentQuestion = 0;
+			this.gamePaper.reset();
+
+			this.$gameActive.show();
+			this.$gameFinished.hide();
 		}
 	});
 });
