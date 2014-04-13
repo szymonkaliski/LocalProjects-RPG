@@ -41,7 +41,7 @@ define([
 			);
 
 			var textPoint = this.centerPoint.add(
-				positionOnCircle(index / this.tokens.length, this.r + 20)
+				positionOnCircle(index / this.tokens.length, this.r + 10)
 			);
 
 			var line = new this.paper.Path();
@@ -50,10 +50,14 @@ define([
 			line.moveTo(this.centerPoint);
 			line.lineTo(endPoint);
 
-			var text = new this.paper.PointText(textPoint);
-			text.justification = "center";
-			text.fillColor = "rgba(0.1, 0.1, 0.1, 0.4)";
-			text.content = token.get("name") + ": 0";
+			var text = new this.paper.PointText({
+				"point": textPoint,
+				"content": token.get("name") + ": 0",
+				"fillColor": "rgba(0.1, 0.1, 0.1, 0.6)",
+				"fontFamily": "Helvetica, Arial",
+				"fontSize": 22,
+				"justification": "center"
+			});
 
 			return {
 				"line": line,

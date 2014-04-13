@@ -1,6 +1,44 @@
 @import "bootstrap/bootstrap.less";
 
+.container {
+	margin-top: 30px;
+}
+
 .game-canvas {
 	width: 100%;
 	height: 100%;
+}
+
+.game-active .question,
+.game-finished .info {
+	text-align: center;
+}
+
+.game-finished .buttons,
+.game-active .buttons {
+	height: 60px;
+	padding: 20px;
+}
+
+.game-finished .buttons {
+	text-align: center;
+}
+
+.game-finished .play-again {
+	position: relative;
+	margin: 0 auto;
+}
+
+.game-active .yes {
+	position: absolute;
+	margin-left: 60px;
+	left: 50%;
+	width: 120px;
+}
+
+.game-active .no {
+	position: absolute;
+	margin-left: -180px;
+	left: 50%;
+	width: 120px;
 }
