@@ -6,8 +6,9 @@ define([
 	"collections/tokens",
 	"views/cmsGames",
 	"views/cmsQuestions",
-	"views/cmsTokens"
-], function($, Backbone, Games, Questions, Tokens, CMSGamesView, CMSQuestionsView, CMSTokensView) {
+	"views/cmsTokens",
+	"views/game"
+], function($, Backbone, Games, Questions, Tokens, CMSGamesView, CMSQuestionsView, CMSTokensView, GameView) {
 	return Backbone.Router.extend({
 		currentView: null, // save current view
 
@@ -65,7 +66,7 @@ define([
 		},
 
 		renderGame: function(id) {
-			console.log("GAME");
+			this.switchToView(GameView, { "id": id, "games": this.games, "questions": this.questions, "tokens": this.tokens });
 		},
 
 		defaultAction: function() {

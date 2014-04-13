@@ -5,10 +5,11 @@ require.config({
 		"jquery": "libraries/jquery",
 		"backbone": "libraries/backbone",
 		"underscore": "libraries/underscore",
-		"bootstrapModal": "libraries/modal"
+		"bootstrapModal": "libraries/modal",
+		"paper": "libraries/paper-full"
 	},
 	shim: {
-		'bootstrapModal': {
+		"bootstrapModal": {
 			deps: [ "jquery" ],
 			exports: "$.fn.modal"
 		}

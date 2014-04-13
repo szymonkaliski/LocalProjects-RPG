@@ -9,6 +9,7 @@ module.exports = function(grunt) {
 					{expand: true, cwd: 'components/requirejs-text/', src: ['text.js'], dest: 'public/scripts/libraries/'},
 					{expand: true, cwd: 'components/backbone/', src: ['backbone.js'], dest: 'public/scripts/libraries/'},
 					{expand: true, cwd: 'components/underscore/', src: ['underscore.js'], dest: 'public/scripts/libraries/'},
+					{expand: true, cwd: 'components/paper/dist/', src: ['paper-full.js'], dest: 'public/scripts/libraries/'},
 					{expand: true, cwd: 'components/bootstrap/js', src: ['modal.js'], dest: 'public/scripts/libraries/'},
 					{expand: true, cwd: 'components/bootstrap/less', src: ['*.less'], dest: 'public/styles/bootstrap/'},
 					{expand: true, cwd: 'components/bootstrap/fonts', src: ['*'], dest: 'public/fonts/'}

@@ -62,3 +62,4 @@
 #13/04/2014
 
 - 15:00 - 15:10 - final cms bug fixes (hopefully)
+- 15:10 - 15:30 - initial game view

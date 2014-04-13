@@ -6,6 +6,7 @@
 		"requirejs": "latest",
 		"requirejs-text": "latest",
 		"backbone": "latest",
-		"bootstrap": "latest"
+		"bootstrap": "latest",
+		"paper": "latest"
 	}
 }
