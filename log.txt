@@ -53,7 +53,7 @@
 3:20 total
 
 - 10:45 - 11:45 - more bug squashing, almost fully functioning cms
-- 11:55 - 13:25 - hopefulyl all bugs squeshed, I forgot how painful was administering child views in backbone; 
+- 11:55 - 13:25 - hopefully all bugs squeshed, I forgot how painful was administering child views in backbone;
                   also added ability to add new questions and tokens from game cms, and add impact by those questions on tokens,
                   CMS isn't pretty but get's the job done, and I can finally start focusing on frontned
 - 13:30 - 14:05 - all bugs squashed, finally on the right track...
@@ -63,3 +63,4 @@
 
 - 15:00 - 15:10 - final cms bug fixes (hopefully)
 - 15:10 - 15:30 - initial game view
+- 15:45 - 17:00 - initial "blob"/radar chart reacting to answers
