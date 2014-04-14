@@ -69,5 +69,7 @@
 - 20:05 - 20:25 - simple frontend styling
 
 #14/04/2014
+1:10 total
 
 - 10:00 - 10:25 - basic style and router redirection
+- 10:30 - 11:15 - putting app on heroku
