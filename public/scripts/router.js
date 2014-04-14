@@ -70,7 +70,8 @@ define([
 		},
 
 		defaultAction: function() {
-			console.log("HELLO WORLD");
+			// redirect to game cms by default
+			window.location = "#cms/game";
 		},
 	});
 });

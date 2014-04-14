@@ -11,7 +11,7 @@ define([
 
 	// tokens is array of possible tokens, with value of this token,
 	// default is 0 and is placed in the r / 2
-	function ReactiveBlob(canvas, tokens, color, minValue, maxValue) {
+	function ReactiveBlob(canvas, tokens, color, fill, minValue, maxValue) {
 		this.paper = new Paper.PaperScope();
 		this.paper.setup(canvas[0]);
 
@@ -45,7 +45,7 @@ define([
 			);
 
 			var line = new this.paper.Path();
-			line.strokeColor = "rgba(0.1, 0.1, 0.1, 0.1)";
+			line.strokeColor = fill;
 
 			line.moveTo(this.centerPoint);
 			line.lineTo(endPoint);
@@ -53,7 +53,7 @@ define([
 			var text = new this.paper.PointText({
 				"point": textPoint,
 				"content": token.get("name") + ": 0",
-				"fillColor": "rgba(0.1, 0.1, 0.1, 0.6)",
+				"fillColor": "#424242",
 				"fontFamily": "Helvetica, Arial",
 				"fontSize": 22,
 				"justification": "center"
@@ -72,10 +72,11 @@ define([
 		}.bind(this));
 
 		this.path.strokeColor = color;
+		this.path.fillColor = fill;
 		this.path.closed = true;
 		this.path.smooth();
 
-		// this.paper.view.draw();
+		// draw
 		this.paper.view.onFrame = function() {
 			this.drawFrame();
 		}.bind(this);

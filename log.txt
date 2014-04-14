@@ -60,9 +60,14 @@
 - 15:15 - 15:30 - added yes/no impact to tokens
 
 #13/04/2014
+3:50 total
 
 - 15:00 - 15:10 - final cms bug fixes (hopefully)
 - 15:10 - 15:30 - initial game view
 - 15:45 - 17:00 - initial "blob"/radar chart reacting to answers
 - 18:00 - 19:45 - working fronted without style
 - 20:05 - 20:25 - simple frontend styling
+
+#14/04/2014
+
+- 10:00 - 10:25 - basic style and router redirection

@@ -1,5 +1,48 @@
 @import "bootstrap/bootstrap.less";
 
+#main {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+#main.game {
+	background-color: #E9E9E9;
+	color: #424242;
+
+	.jumbotron{
+		background-color: #E9E9E9;
+		color: #424242;
+	}
+
+	.btn-success {
+		background-color: #3299BB;
+		border-color: #3299BB;
+	}
+
+	.btn-danger {
+		background-color: #FF9900;
+		border-color: #FF9900;
+	}
+
+	.btn-info {
+		background-color: #BCBCBC;
+		border-color: #BCBCBC;
+	}
+
+	.btn-success:hover {
+		background-color: darken(#3299BB, 10%);
+	}
+
+	.btn-danger:hover {
+		background-color: darken(#FF9900, 10%);
+	}
+
+	.btn-info:hover {
+		background-color: darken(#BCBCBC, 10%);
+	}
+}
+
 .container {
 	margin-top: 30px;
 }

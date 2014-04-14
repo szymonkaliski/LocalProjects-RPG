@@ -108,6 +108,7 @@ define([
 			this.$question = this.$el.find(".question");
 			this.$gameActive = this.$el.find(".game-active");
 			this.$gameFinished = this.$el.find(".game-finished");
+			this.$el.attr("class", "game");
 
 			// render first question
 			this.renderQuestion();
@@ -116,7 +117,8 @@ define([
 			this.gamePaper = new GamePaper(
 				this.$canvas,
 				this.gameTokens,
-				"green",
+				"#BCBCBC",
+				"rgba(188, 188, 188, 0.3)",
 				this.minValue,
 				this.maxValue
 			);

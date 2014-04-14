@@ -10,6 +10,10 @@
 	<span class="glyphicon glyphicon-remove"></span>
 </button>
 
+<a href="/#game/<%= model.id %>">
+	play game
+</a>
+
 <div class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
