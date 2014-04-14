@@ -127,7 +127,7 @@ define([
 		renderQuestion: function() {
 			var gameQuestions = this.model.get("questions");
 
-			if (this.currentQuestion === gameQuestions.length - 1) {
+			if (this.currentQuestion === gameQuestions.length) {
 				this.renderEndScreen();
 			}
 			else {
